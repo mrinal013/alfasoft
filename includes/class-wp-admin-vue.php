@@ -3,6 +3,7 @@
 namespace includes;
 
 use admin\Wp_Admin_Vue_Admin;
+use wp_public\Wp_Admin_Vue_Public;
 
 /**
  * The file that defines the core plugin class
@@ -101,30 +102,7 @@ class Wp_Admin_Vue {
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function load_dependencies() {
-
-		/**
-		 * The class responsible for orchestrating the actions and filters of the
-		 * core plugin.
-		 */
-		//require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-admin-vue-loader.php';
-
-		/**
-		 * The class responsible for defining internationalization functionality
-		 * of the plugin.
-		 */
-		// require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wp-admin-vue-i18n.php';
-
-		/**
-		 * The class responsible for defining all actions that occur in the admin area.
-		 */
-		// require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-wp-admin-vue-admin.php';
-
-		/**
-		 * The class responsible for defining all actions that occur in the public-facing
-		 * side of the site.
-		 */
-		// require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wp-admin-vue-public.php';
+	private function load_dependencies() {		
 
 		$this->loader = new Wp_Admin_Vue_Loader();
 

@@ -61,34 +61,65 @@ register_activation_hook( __FILE__, 'activate_wp_admin_vue' );
 register_deactivation_hook( __FILE__, 'deactivate_wp_admin_vue' );
 
 /**
- * The core plugin class that is used to define internationalization,
- * admin-specific hooks, and public-facing site hooks.
+ * The main plugin class that is used to define necessary operation of run this plugin.
  */
-// require plugin_dir_path( __FILE__ ) . 'includes/class-wp-admin-vue.php';
 
-/**
- * Begins execution of the plugin.
- *
- * Since everything within the plugin is registered via hooks,
- * then kicking off the plugin from this point in the file does
- * not affect the page life cycle.
- *
- * @since    1.0.0
- */
-function run_wp_admin_vue() {
-
-	$plugin = new Wp_Admin_Vue();
-	$plugin->run();
-
-}
-// run_wp_admin_vue();
-
-class Main_Plugin_Class {
+class WP_Admin_Vue_Plugin_Boilerplate {
 	public function __construct() {
-		$this->wp_admin_vue_autoload();
-
-		( new Wp_Admin_Vue() )->run();
+		$this->wp_admin_vue_operation();	
 	}
+
+	public function wp_admin_vue_operation() {
+		if( $this->wp_admin_vue_check() ) {
+			$this->wp_admin_vue_autoload();
+			( new Wp_Admin_Vue() )->run();
+		}
+	}
+
+	public function wp_admin_vue_check() {
+		 
+		// Check if get_plugins() function exists.
+		if ( ! function_exists( 'get_plugins' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+		$installed_plugins = get_plugins();
+		$active_plugins = get_option( 'active_plugins' );
+
+		$dependency_plugins = [ 
+			'woocommerce/woocommerce.php' => '5.0',
+		];
+
+		$dependency_plugin_not_installed_error = [];
+		$dependency_plugin_inactive_error = [];
+		$dependency_plugin_version_error = [];
+
+		if( ! empty( $dependency_plugins ) ) {
+			foreach( $dependency_plugins as $dependency_plugin_main_file => $dependency_plugin_version ) {
+				if( ! empty( $active_plugins ) && ! empty( $installed_plugins) ) {
+					if( array_key_exists( $dependency_plugin_main_file, $installed_plugins ) ) {
+						if( array_key_exists( $dependency_plugin_main_file, array_flip( $active_plugins ) ) ) {
+							if( $installed_plugins[$dependency_plugin_main_file]['Version'] < $dependency_plugin_version ) {
+								$dependency_plugin_version_error[ $installed_plugins[ $dependency_plugin_main_file ][ 'Name' ] ] = $dependency_plugin_version;
+							}
+						} else {
+							$dependency_plugin_inactive_error[ $installed_plugins[ $dependency_plugin_main_file ][ 'Name' ] ] = $dependency_plugins[ $dependency_plugin_main_file ];
+						}
+					} else {						
+						$dependency_plugin_not_installed_error[ $dependency_plugin_main_file ] = $dependency_plugin_version;
+					}
+				}
+			}
+		}
+		// echo '<pre>';
+		// echo 'Not installed' . '<br/>';
+		// print_r($dependency_plugin_not_installed_error);
+		// echo 'Installed but inactive'. '<br/>';
+		// print_r($dependency_plugin_inactive_error);
+		// echo 'Active but version problem' . '<br/>';
+		// print_r($dependency_plugin_version_error);
+		// echo '<pre>';
+		// wp_die();	
+		}
 
 	public function wp_admin_vue_autoload() {
 		spl_autoload_register( function( $class ) {
@@ -102,4 +133,4 @@ class Main_Plugin_Class {
 	}
 }
 
-new Main_Plugin_Class();
+new WP_Admin_Vue_Plugin_Boilerplate();
