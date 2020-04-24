@@ -52,9 +52,9 @@ class WP_Admin_Vue_Plugin_Boilerplate {
 
 	public function wp_admin_vue_operation() {
 		if( $this->wp_admin_vue_check() ) {
-			$this->wp_admin_vue_autoload();
 			register_activation_hook( __FILE__, [ $this, 'activate_wp_admin_vue' ] );
 			register_deactivation_hook( __FILE__, [ $this, 'deactivate_wp_admin_vue' ] );
+			$this->wp_admin_vue_autoload();
 			( new Wp_Admin_Vue() )->run();
 		}
 	}
@@ -116,19 +116,33 @@ class WP_Admin_Vue_Plugin_Boilerplate {
 			! empty( $dependency_plugin_inactive_error ) || 
 			! empty( $dependency_plugin_version_error ) 
 		? true : false;
-		// var_dump( $dependency_error );
-		// wp_die();
 
 		if( $dependency_error ) {
-			add_action( 'admin_notices', [ $this, 'dependency_error_notice' ] );
 			deactivate_plugins( plugin_basename( __FILE__ ) );
+			add_action( 'admin_head', [ $this, 'hide_plugin_activation_notice' ] );
+			add_action( 'admin_notices', [ $this, 'dependency_error_notice' ] );
 			return false;
 		} else {
 			return true;
 		}
 	}
+
+	public function hide_plugin_activation_notice() {
+		?>
+		<style>
+		#message.updated {
+			display: none;
+		}
+		</style>
+		<?php
+	}
+
 	public function dependency_error_notice() {
-		echo 'Hello';
+		?>
+		<div class="notice notice-error">
+			<p><?php _e( 'Done!', 'sample-text-domain' ); ?></p>
+		</div>
+		<?php
 	}
 
 	public function wp_admin_vue_autoload() {
