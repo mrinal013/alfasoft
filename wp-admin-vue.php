@@ -1,6 +1,8 @@
 <?php
 
 use includes\Wp_Admin_Vue;
+use includes\Wp_Admin_Vue_Activator;
+use includes\Wp_Admin_Vue_Deactivator;
 
 /**
  * The plugin bootstrap file
@@ -40,27 +42,6 @@ if ( ! defined( 'WPINC' ) ) {
 define( 'WP_ADMIN_VUE_VERSION', '1.0.0' );
 
 /**
- * The code that runs during plugin activation.
- * This action is documented in includes/class-wp-admin-vue-activator.php
- */
-function activate_wp_admin_vue() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-wp-admin-vue-activator.php';
-	Wp_Admin_Vue_Activator::activate();
-}
-
-/**
- * The code that runs during plugin deactivation.
- * This action is documented in includes/class-wp-admin-vue-deactivator.php
- */
-function deactivate_wp_admin_vue() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-wp-admin-vue-deactivator.php';
-	Wp_Admin_Vue_Deactivator::deactivate();
-}
-
-register_activation_hook( __FILE__, 'activate_wp_admin_vue' );
-register_deactivation_hook( __FILE__, 'deactivate_wp_admin_vue' );
-
-/**
  * The main plugin class that is used to define necessary operation of run this plugin.
  */
 
@@ -72,13 +53,32 @@ class WP_Admin_Vue_Plugin_Boilerplate {
 	public function wp_admin_vue_operation() {
 		if( $this->wp_admin_vue_check() ) {
 			$this->wp_admin_vue_autoload();
+			register_activation_hook( __FILE__, [ $this, 'activate_wp_admin_vue' ] );
+			register_deactivation_hook( __FILE__, [ $this, 'deactivate_wp_admin_vue' ] );
 			( new Wp_Admin_Vue() )->run();
 		}
 	}
 
+	/**
+	 * The method runs during plugin activation.
+	 * This action is documented in includes/class-wp-admin-vue-activator.php
+	 */
+	function activate_wp_admin_vue() {
+		Wp_Admin_Vue_Activator::activate();
+	}
+
+	/**
+	 * The method runs during plugin deactivation.
+	 * This action is documented in includes/class-wp-admin-vue-deactivator.php
+	 */
+	function deactivate_wp_admin_vue() {
+		Wp_Admin_Vue_Deactivator::deactivate();
+	}
+	/**
+	 * This method do the checking task at the time of plugin initialization.
+	 */
 	public function wp_admin_vue_check() {
 		 
-		// Check if get_plugins() function exists.
 		if ( ! function_exists( 'get_plugins' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
@@ -86,7 +86,7 @@ class WP_Admin_Vue_Plugin_Boilerplate {
 		$active_plugins = get_option( 'active_plugins' );
 
 		$dependency_plugins = [ 
-			'woocommerce/woocommerce.php' => '5.0',
+			'woocommerce/woocommerce.php' => '3.0',
 		];
 
 		$dependency_plugin_not_installed_error = [];
@@ -110,16 +110,26 @@ class WP_Admin_Vue_Plugin_Boilerplate {
 				}
 			}
 		}
-		// echo '<pre>';
-		// echo 'Not installed' . '<br/>';
-		// print_r($dependency_plugin_not_installed_error);
-		// echo 'Installed but inactive'. '<br/>';
-		// print_r($dependency_plugin_inactive_error);
-		// echo 'Active but version problem' . '<br/>';
-		// print_r($dependency_plugin_version_error);
-		// echo '<pre>';
-		// wp_die();	
+
+		$dependency_error = 
+			! empty( $dependency_plugin_not_installed_error ) || 
+			! empty( $dependency_plugin_inactive_error ) || 
+			! empty( $dependency_plugin_version_error ) 
+		? true : false;
+		// var_dump( $dependency_error );
+		// wp_die();
+
+		if( $dependency_error ) {
+			add_action( 'admin_notices', [ $this, 'dependency_error_notice' ] );
+			deactivate_plugins( plugin_basename( __FILE__ ) );
+			return false;
+		} else {
+			return true;
 		}
+	}
+	public function dependency_error_notice() {
+		echo 'Hello';
+	}
 
 	public function wp_admin_vue_autoload() {
 		spl_autoload_register( function( $class ) {
