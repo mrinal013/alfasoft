@@ -40,6 +40,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Rename this for your plugin and update it as you release new versions.
  */
 define( 'WP_ADMIN_VUE_VERSION', '1.0.0' );
+define( 'TEXTDOMAIN', 'wp-admin-vue');
 
 /**
  * The main plugin class that is used to define necessary operation of run this plugin.
@@ -57,6 +58,20 @@ class WP_Admin_Vue_Plugin_Boilerplate {
 			$this->wp_admin_vue_autoload();
 			( new Wp_Admin_Vue() )->run();
 		}
+	}
+
+	/**
+	 * Autoload all files depend on demand
+	 */
+	public function wp_admin_vue_autoload() {
+		spl_autoload_register( function( $class ) {
+			$file_name = plugin_dir_path( __FILE__ ) . str_replace( '\\', DIRECTORY_SEPARATOR, substr_replace( str_replace( '_', '-', strtolower( $class ) ), 'class-', strpos( $class, '\\', 0 ) + 1, 0 ) ) . '.php';
+
+			if( file_exists( $file_name ) ) {
+				require $file_name;
+			}
+
+		} );
 	}
 
 	/**
@@ -86,7 +101,7 @@ class WP_Admin_Vue_Plugin_Boilerplate {
 		$active_plugins = get_option( 'active_plugins' );
 
 		$dependency_plugins = [ 
-			'woocommerce/woocommerce.php' => '3.0',
+			// 'woocommerce/woocommerce.php' => '3.0',
 		];
 
 		$dependency_plugin_not_installed_error = [];
@@ -145,16 +160,7 @@ class WP_Admin_Vue_Plugin_Boilerplate {
 		<?php
 	}
 
-	public function wp_admin_vue_autoload() {
-		spl_autoload_register( function( $class ) {
-			$file_name = plugin_dir_path( __FILE__ ) . str_replace( '\\', DIRECTORY_SEPARATOR, substr_replace( str_replace( '_', '-', strtolower( $class ) ), 'class-', strpos( $class, '\\', 0 ) + 1, 0 ) ) . '.php';
-
-			if( file_exists( $file_name ) ) {
-				require $file_name;
-			}
-
-		} );
-	}
+	
 }
 
 new WP_Admin_Vue_Plugin_Boilerplate();

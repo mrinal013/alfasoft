@@ -2,6 +2,8 @@
 
 namespace admin;
 
+use admin\WP_Admin_Vue_Menu;
+
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -22,7 +24,10 @@ namespace admin;
  * @subpackage Wp_Admin_Vue/admin
  * @author     Mrinal Haque <mrinalhaque99@gmail.com>
  */
+
 class Wp_Admin_Vue_Admin {
+
+	use WP_Admin_Vue_Menu;
 
 	/**
 	 * The ID of this plugin.
@@ -52,9 +57,10 @@ class Wp_Admin_Vue_Admin {
 	public function __construct( $plugin_name, $version ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
-
+		$this->version = $version;	
 	}
+
+	
 
 	/**
 	 * Register the stylesheets for the admin area.

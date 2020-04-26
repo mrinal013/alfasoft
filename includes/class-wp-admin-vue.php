@@ -89,13 +89,6 @@ class Wp_Admin_Vue {
 	/**
 	 * Load the required dependencies for this plugin.
 	 *
-	 * Include the following files that make up the plugin:
-	 *
-	 * - Wp_Admin_Vue_Loader. Orchestrates the hooks of the plugin.
-	 * - Wp_Admin_Vue_i18n. Defines internationalization functionality.
-	 * - Wp_Admin_Vue_Admin. Defines all hooks for the admin area.
-	 * - Wp_Admin_Vue_Public. Defines all hooks for the public side of the site.
-	 *
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
 	 *
@@ -138,6 +131,8 @@ class Wp_Admin_Vue {
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'wp_admin_menu' );
 
 	}
 
