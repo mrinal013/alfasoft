@@ -70,8 +70,16 @@ class WP_Admin_Vue_Plugin_Boilerplate {
 			if( file_exists( $file_name ) ) {
 				require $file_name;
 			}
-
 		} );
+
+		spl_autoload_register( function( $trait ) {
+			$file_name = plugin_dir_path( __FILE__ ) . str_replace( '\\', DIRECTORY_SEPARATOR, substr_replace( str_replace( '_', '-', strtolower( $trait ) ), 'trait-', strpos( $trait, '\\', 0 ) + 1, 0 ) ) . '.php';
+
+			if( file_exists( $file_name ) ) {
+				require $file_name;
+			}
+		} );
+
 	}
 
 	/**
