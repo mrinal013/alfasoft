@@ -133,7 +133,7 @@ class Wp_Admin_Vue {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'wp_admin_menu' );
-
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'wp_admin_all_quotes_submenu' );
 	}
 
 	/**

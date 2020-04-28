@@ -3,6 +3,7 @@
 namespace admin;
 
 use admin\WP_Admin_Vue_Menu;
+use admin\WP_Admin_Vue_Submenu;
 
 /**
  * The admin-specific functionality of the plugin.
@@ -27,7 +28,7 @@ use admin\WP_Admin_Vue_Menu;
 
 class Wp_Admin_Vue_Admin {
 
-	use WP_Admin_Vue_Menu;
+	use WP_Admin_Vue_Menu, WP_Admin_Vue_Submenu;
 
 	/**
 	 * The ID of this plugin.
