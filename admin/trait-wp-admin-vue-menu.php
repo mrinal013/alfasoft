@@ -8,7 +8,7 @@ trait WP_Admin_Vue_Menu {
 			__( 'Report', TEXTDOMAIN ),
 			__( 'WP Admin with Vue', TEXTDOMAIN ),
 			'manage_options',
-			'wp-admin-vue',
+			PAGE_SLUG,
 			[ $this, 'wp_admin_vue_cb'],
 			'dashicons-admin-customizer',
 			76

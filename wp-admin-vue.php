@@ -41,6 +41,7 @@ if ( ! defined( 'WPINC' ) ) {
  */
 define( 'WP_ADMIN_VUE_VERSION', '1.0.0' );
 define( 'TEXTDOMAIN', 'wp-admin-vue');
+define( 'PAGE_SLUG', 'wp-admin-vue');
 
 /**
  * The main plugin class that is used to define necessary operation of run this plugin.
