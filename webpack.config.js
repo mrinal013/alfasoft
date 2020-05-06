@@ -7,10 +7,16 @@ const RemovePlugin = require("remove-files-webpack-plugin");
 module.exports = {
   mode: "development",
   entry: {
-    "admin/assets/js": "./admin/assets/js/wp-admin-vue-admin.js",
-    "wp-public/assets/js": "./wp-public/assets/js/wp-admin-vue-public.js",
+    "admin/assets/js": "./admin/assets/vue-admin/wp-admin-vue-admin.vue",
+    "wp-public/assets/js":
+      "./wp-public/assets/vue-admin/wp-admin-vue-public.vue",
     admin: "./admin/assets/scss/wp-admin-vue-admin.scss",
     "wp-public": "./wp-public/assets/scss/wp-admin-vue-public.scss",
+  },
+  resolve: {
+    alias: {
+      vue$: "vue/dist/vue.esm.js", // Use the full build
+    },
   },
   output: {
     filename: "[name]/wp-admin-vue.build.js",
@@ -30,22 +36,8 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /wp-admin-vue-admin.js$/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: ["babel-preset-env"],
-          },
-        },
-      },
-      {
-        test: /wp-admin-vue-public.js$/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: ["babel-preset-env"],
-          },
-        },
+        test: /\$.vue/,
+        loader: "vue-loader",
       },
       {
         test: /.(sc|c)ss$/,

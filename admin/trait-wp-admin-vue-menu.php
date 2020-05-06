@@ -16,6 +16,6 @@ trait WP_Admin_Vue_Menu {
 	}
 
 	public function wp_admin_vue_cb() {
-		echo "<div id='page'>Hello</div>";
+		echo "<div id='app'>{{ message }}</div>";
 	}    
 }

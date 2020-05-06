@@ -81,20 +81,19 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./wp-public/assets/js/wp-admin-vue-public.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./wp-public/assets/vue-admin/wp-admin-vue-public.vue");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./wp-public/assets/js/wp-admin-vue-public.js":
-/*!****************************************************!*\
-  !*** ./wp-public/assets/js/wp-admin-vue-public.js ***!
-  \****************************************************/
+/***/ "./wp-public/assets/vue-admin/wp-admin-vue-public.vue":
+/*!************************************************************!*\
+  !*** ./wp-public/assets/vue-admin/wp-admin-vue-public.vue ***!
+  \************************************************************/
 /*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-eval("\n\n(function ($) {\n  'use strict';\n  /**\n   * All of the code for your public-facing JavaScript source\n   * should reside in this file.\n   *\n   * Note: It has been assumed you will write jQuery code here, so the\n   * $ function reference has been prepared for usage within the scope\n   * of this function.\n   *\n   * This enables you to define handlers, for when the DOM is ready:\n   *\n   * $(function() {\n   *\n   * });\n   *\n   * When the window is loaded:\n   *\n   * $( window ).load(function() {\n   *\n   * });\n   *\n   * ...and/or other possibilities.\n   *\n   * Ideally, it is not considered best practise to attach more than a\n   * single DOM-ready or window-load handler for a particular page.\n   * Although scripts in the WordPress core, Plugins and Themes may be\n   * practising this, we should strive to set a better example in our own work.\n   */\n})(jQuery);\n\n//# sourceURL=webpack:///./wp-public/assets/js/wp-admin-vue-public.js?");
+eval("(function( $ ) {\n\t'use strict';\n\n\t/**\n\t * All of the code for your public-facing JavaScript source\n\t * should reside in this file.\n\t *\n\t * Note: It has been assumed you will write jQuery code here, so the\n\t * $ function reference has been prepared for usage within the scope\n\t * of this function.\n\t *\n\t * This enables you to define handlers, for when the DOM is ready:\n\t *\n\t * $(function() {\n\t *\n\t * });\n\t *\n\t * When the window is loaded:\n\t *\n\t * $( window ).load(function() {\n\t *\n\t * });\n\t *\n\t * ...and/or other possibilities.\n\t *\n\t * Ideally, it is not considered best practise to attach more than a\n\t * single DOM-ready or window-load handler for a particular page.\n\t * Although scripts in the WordPress core, Plugins and Themes may be\n\t * practising this, we should strive to set a better example in our own work.\n\t */\n\n})( jQuery );\n\n\n//# sourceURL=webpack:///./wp-public/assets/vue-admin/wp-admin-vue-public.vue?");
 
 /***/ })
 
