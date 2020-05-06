@@ -12,4 +12,5 @@ window.addEventListener("load", function() {
     router,
     render: (h) => h(App),
   });
+  menuFix("wp-admin-vue");
 });
