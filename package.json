@@ -36,6 +36,7 @@
     "@fortawesome/fontawesome-free": "^5.12.1",
     "remove-files-webpack-plugin": "^1.4.0",
     "resolve-url-loader": "^3.1.1",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-router": "^3.1.6"
   }
 }

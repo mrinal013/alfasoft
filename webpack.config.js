@@ -1,5 +1,6 @@
 const path = require("path");
 const webpack = require("webpack");
+const VueLoaderPlugin = require("vue-loader/lib/plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const FixStyleOnlyEntriesPlugin = require("webpack-fix-style-only-entries");
 const RemovePlugin = require("remove-files-webpack-plugin");
@@ -7,9 +8,8 @@ const RemovePlugin = require("remove-files-webpack-plugin");
 module.exports = {
   mode: "development",
   entry: {
-    "admin/assets/js": "./admin/assets/vue-admin/wp-admin-vue-admin.vue",
-    "wp-public/assets/js":
-      "./wp-public/assets/vue-admin/wp-admin-vue-public.vue",
+    "admin/assets/js": "./admin/assets/vue/wp-admin-vue.js",
+    "wp-public/assets/js": "./wp-public/assets/vue/wp-admin-vue.js",
     admin: "./admin/assets/scss/wp-admin-vue-admin.scss",
     "wp-public": "./wp-public/assets/scss/wp-admin-vue-public.scss",
   },
@@ -32,12 +32,18 @@ module.exports = {
         include: ["./admin/assets/js/assets"],
       },
     }),
+    new VueLoaderPlugin(),
   ],
   module: {
     rules: [
       {
-        test: /\$.vue/,
+        test: /\.vue$/,
         loader: "vue-loader",
+      },
+      {
+        test: /\.js$/,
+        use: "babel-loader",
+        exclude: /node_modules/,
       },
       {
         test: /.(sc|c)ss$/,
