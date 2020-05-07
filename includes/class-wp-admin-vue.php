@@ -129,12 +129,8 @@ class Wp_Admin_Vue {
 
 		$plugin_admin = new Wp_Admin_Vue_Admin( $this->get_plugin_name(), $this->get_version() );
 
-
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'wp_admin_menu' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'wp_admin_submenu' );
-		
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
 	}
 
