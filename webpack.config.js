@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const VueLoaderPlugin = require("vue-loader/lib/plugin");
+const VuetifyLoaderPlugin = require("vuetify-loader/lib/plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const FixStyleOnlyEntriesPlugin = require("webpack-fix-style-only-entries");
 const RemovePlugin = require("remove-files-webpack-plugin");
@@ -27,12 +28,8 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: "[name]/assets/css/wp-admin-vue.build.css",
     }),
-    new RemovePlugin({
-      after: {
-        include: ["./admin/assets/js/assets"],
-      },
-    }),
     new VueLoaderPlugin(),
+    new VuetifyLoaderPlugin(),
   ],
   module: {
     rules: [
@@ -40,18 +37,16 @@ module.exports = {
         test: /\.vue$/,
         loader: "vue-loader",
       },
+
       {
         test: /\.js$/,
         use: "babel-loader",
         exclude: /node_modules/,
       },
       {
-        test: /.(sc|c)ss$/,
+        test: /\.s(c|a)ss$/,
         use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-          },
-          "css-loader",
+          "vue-style-loader",
           {
             loader: "postcss-loader",
             options: {
@@ -61,7 +56,23 @@ module.exports = {
               },
             },
           },
-          "sass-loader",
+          {
+            loader: "sass-loader",
+            // Requires sass-loader@^7.0.0
+            options: {
+              implementation: require("sass"),
+              fiber: require("fibers"),
+              indentedSyntax: true, // optional
+            },
+            // Requires sass-loader@^8.0.0
+            options: {
+              implementation: require("sass"),
+              sassOptions: {
+                fiber: require("fibers"),
+                indentedSyntax: true, // optional
+              },
+            },
+          },
         ],
       },
     ],

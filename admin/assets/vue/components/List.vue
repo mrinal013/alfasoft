@@ -1,6 +1,6 @@
 <template>
-  <div class="card">
-    <span>{{ msg }}</span>
+  <div>
+    <v-btn raised color="error">Vue</v-btn>
   </div>
 </template>
 

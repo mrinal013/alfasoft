@@ -1,12 +1,12 @@
 <template>
   <div class="home">
-    <span>{{ msg }}</span>
     <Card></Card>
   </div>
 </template>
 
 <script>
 import Card from '../components/Card.vue';
+
 export default {
 
   name: 'Home',
