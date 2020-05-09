@@ -1,9 +1,4 @@
 <template>
-  <v-card
-    class="mx-auto"
-    max-width="300"
-    tile
-  >
     <v-list flat>
       <v-subheader>REPORTS</v-subheader>
       <v-list-item-group v-model="item" color="primary">
@@ -20,17 +15,14 @@
         </v-list-item>
       </v-list-item-group>
     </v-list>
-  </v-card>
 </template>
 
 <script>
-import List from '../components/List.vue';
-
 export default {
 
-  name: 'Settings',
+  name: 'Inspire',
   components: {
-    List
+    
   },
 
   data: () => ({
@@ -41,8 +33,10 @@ export default {
         { text: 'Conversions', icon: 'mdi-flag' },
       ],
     }),
-};
+}
 </script>
 
-<style lang="css" scoped>
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+
 </style>

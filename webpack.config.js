@@ -44,9 +44,15 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.s(c|a)ss$/,
+        test: /.(sc|c)ss$/,
         use: [
           "vue-style-loader",
+          "style-loader",
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          "css-loader",
+          "sass-loader",
           {
             loader: "postcss-loader",
             options: {
@@ -56,6 +62,14 @@ module.exports = {
               },
             },
           },
+        ],
+      },
+      {
+        test: /\.sass$/,
+        use: [
+          "vue-style-loader",
+          "style-loader",
+          "css-loader",
           {
             loader: "sass-loader",
             // Requires sass-loader@^7.0.0
@@ -71,6 +85,18 @@ module.exports = {
                 fiber: require("fibers"),
                 indentedSyntax: true, // optional
               },
+            },
+          },
+        ],
+      },
+      {
+        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "[name].[ext]",
+              outputPath: "admin/assets/fonts/",
             },
           },
         ],

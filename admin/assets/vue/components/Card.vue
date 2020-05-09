@@ -1,6 +1,7 @@
 <template>
   <div>
     <v-btn raised color="error">Hello</v-btn>
+    <v-icon large color="green darken-2">mdi-domain</v-icon>
   </div>
 </template>
 

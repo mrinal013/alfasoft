@@ -35,9 +35,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 /**
- * Currently plugin version.
- * Start at version 1.0.0 and use SemVer - https://semver.org
- * Rename this for your plugin and update it as you release new versions.
+ * Define plugin constants
  */
 define( 'WP_ADMIN_VUE_VERSION', '1.0.0' );
 define( 'TEXTDOMAIN', 'wp-admin-vue');

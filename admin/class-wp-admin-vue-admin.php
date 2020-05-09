@@ -104,7 +104,7 @@ class Wp_Admin_Vue_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-		// wp_enqueue_script( 'vue', 'https://cdn.jsdelivr.net/npm/vue/dist/vue.js', array( ), $this->version, false );
+		
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'assets/js/wp-admin-vue.build.js', array(  ), $this->version, false );
 
 	}
