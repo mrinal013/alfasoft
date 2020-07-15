@@ -46,11 +46,21 @@ define( 'PAGE_SLUG', 'wp-admin-vue');
  */
 
 class WP_Admin_Vue_Plugin_Boilerplate {
+
+	/**
+	 * This function start plugin's operation functionality
+	 * 
+	 * @since 1.0.0
+	 */
 	public function __construct() {
 		$this->wp_admin_vue_operation();	
 	}
 
 	public function wp_admin_vue_operation() {
+		if ( defined( 'WP_Admin_Vue_Plugin_Loaded' ) ) { 
+			return; 
+		}
+		define( 'WP_Admin_Vue_Plugin_Loaded', true );
 		if( $this->wp_admin_vue_check() ) {
 			register_activation_hook( __FILE__, [ $this, 'activate_wp_admin_vue' ] );
 			register_deactivation_hook( __FILE__, [ $this, 'deactivate_wp_admin_vue' ] );
@@ -61,6 +71,8 @@ class WP_Admin_Vue_Plugin_Boilerplate {
 
 	/**
 	 * Autoload all files depend on demand
+	 * 
+	 * @since 1.0.0
 	 */
 	public function wp_admin_vue_autoload() {
 		spl_autoload_register( function( $class ) {
@@ -78,29 +90,33 @@ class WP_Admin_Vue_Plugin_Boilerplate {
 				require $file_name;
 			}
 		} );
-
 	}
 
 	/**
-	 * The method runs during plugin activation.
+	 * The method run during plugin activation.
 	 * This action is documented in includes/class-wp-admin-vue-activator.php
+	 * 
+	 * @since 1.0.0
 	 */
 	function activate_wp_admin_vue() {
 		Wp_Admin_Vue_Activator::activate();
 	}
 
 	/**
-	 * The method runs during plugin deactivation.
+	 * The method run during plugin deactivation.
 	 * This action is documented in includes/class-wp-admin-vue-deactivator.php
+	 * 
+	 * @since 1.0.0
 	 */
 	function deactivate_wp_admin_vue() {
 		Wp_Admin_Vue_Deactivator::deactivate();
 	}
 	/**
 	 * This method do the checking task at the time of plugin initialization.
+	 * 
+	 * @since 1.0.0
 	 */
 	public function wp_admin_vue_check() {
-		 
 		if ( ! function_exists( 'get_plugins' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
@@ -108,27 +124,25 @@ class WP_Admin_Vue_Plugin_Boilerplate {
 		$active_plugins = get_option( 'active_plugins' );
 
 		$dependency_plugins = [ 
-			// 'woocommerce/woocommerce.php' => '3.0',
+			'woocommerce/woocommerce.php' => '3.0',
 		];
 
 		$dependency_plugin_not_installed_error = [];
 		$dependency_plugin_inactive_error = [];
 		$dependency_plugin_version_error = [];
 
-		if( ! empty( $dependency_plugins ) ) {
+		if( ! empty( $dependency_plugins ) && ! empty( $active_plugins ) && ! empty( $installed_plugins) ) {
 			foreach( $dependency_plugins as $dependency_plugin_main_file => $dependency_plugin_version ) {
-				if( ! empty( $active_plugins ) && ! empty( $installed_plugins) ) {
-					if( array_key_exists( $dependency_plugin_main_file, $installed_plugins ) ) {
-						if( array_key_exists( $dependency_plugin_main_file, array_flip( $active_plugins ) ) ) {
-							if( $installed_plugins[$dependency_plugin_main_file]['Version'] < $dependency_plugin_version ) {
-								$dependency_plugin_version_error[ $installed_plugins[ $dependency_plugin_main_file ][ 'Name' ] ] = $dependency_plugin_version;
-							}
-						} else {
-							$dependency_plugin_inactive_error[ $installed_plugins[ $dependency_plugin_main_file ][ 'Name' ] ] = $dependency_plugins[ $dependency_plugin_main_file ];
+				if( array_key_exists( $dependency_plugin_main_file, $installed_plugins ) ) {
+					if( array_key_exists( $dependency_plugin_main_file, array_flip( $active_plugins ) ) ) {
+						if( $installed_plugins[$dependency_plugin_main_file]['Version'] < $dependency_plugin_version ) {
+							$dependency_plugin_version_error[ $installed_plugins[ $dependency_plugin_main_file ][ 'Name' ] ] = $dependency_plugin_version;
 						}
-					} else {						
-						$dependency_plugin_not_installed_error[ $dependency_plugin_main_file ] = $dependency_plugin_version;
+					} else {
+						$dependency_plugin_inactive_error[ $installed_plugins[ $dependency_plugin_main_file ][ 'Name' ] ] = $dependency_plugins[ $dependency_plugin_main_file ];
 					}
+				} else {						
+					$dependency_plugin_not_installed_error[ $dependency_plugin_main_file ] = $dependency_plugin_version;
 				}
 			}
 		}
@@ -149,6 +163,13 @@ class WP_Admin_Vue_Plugin_Boilerplate {
 		}
 	}
 
+	/**
+	 * Hide auto deactivation notice.
+	 * When dependent plugin is not active, this plugin automatically deactivated.
+	 * This method hide this notification.
+	 * 
+	 * @since 1.0.0
+	 */
 	public function hide_plugin_activation_notice() {
 		?>
 		<style>
@@ -162,12 +183,15 @@ class WP_Admin_Vue_Plugin_Boilerplate {
 	public function dependency_error_notice() {
 		?>
 		<div class="notice notice-error">
-			<p><?php _e( 'Done!', 'sample-text-domain' ); ?></p>
+			<p><?php _e( 'Done!', TEXTDOMAIN ); ?></p>
 		</div>
 		<?php
 	}
 
-	
 }
 
-new WP_Admin_Vue_Plugin_Boilerplate();
+add_action( 'init', function(){
+    if ( ! defined( 'WP_Admin_Vue_Plugin_Loaded' ) ) {
+		new WP_Admin_Vue_Plugin_Boilerplate();
+    }
+});
