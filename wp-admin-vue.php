@@ -1,9 +1,5 @@
 <?php
 
-use includes\Wp_Admin_Vue;
-use includes\Wp_Admin_Vue_Activator;
-use includes\Wp_Admin_Vue_Deactivator;
-
 /**
  * The plugin bootstrap file
  *
@@ -37,161 +33,25 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Define plugin constants
  */
+define( 'PLUGIN_MAIN_FILE', __FILE__ );
 define( 'WP_ADMIN_VUE_VERSION', '1.0.0' );
 define( 'TEXTDOMAIN', 'wp-admin-vue');
 define( 'PAGE_SLUG', 'wp-admin-vue');
 
-/**
- * The main plugin class that is used to define necessary operation of run this plugin.
- */
-
-class WP_Admin_Vue_Plugin_Boilerplate {
-
-	/**
-	 * This function start plugin's operation functionality
-	 * 
-	 * @since 1.0.0
-	 */
-	public function __construct() {
-		$this->wp_admin_vue_operation();	
-	}
-
-	public function wp_admin_vue_operation() {
-		if ( defined( 'WP_Admin_Vue_Plugin_Loaded' ) ) { 
-			return; 
-		}
-		define( 'WP_Admin_Vue_Plugin_Loaded', true );
-		if( $this->wp_admin_vue_check() ) {
-			register_activation_hook( __FILE__, [ $this, 'activate_wp_admin_vue' ] );
-			register_deactivation_hook( __FILE__, [ $this, 'deactivate_wp_admin_vue' ] );
-			$this->wp_admin_vue_autoload();
-			( new Wp_Admin_Vue() )->run();
-		}
-	}
-
-	/**
-	 * Autoload all files depend on demand
-	 * 
-	 * @since 1.0.0
-	 */
-	public function wp_admin_vue_autoload() {
-		spl_autoload_register( function( $class ) {
-			$file_name = plugin_dir_path( __FILE__ ) . str_replace( '\\', DIRECTORY_SEPARATOR, substr_replace( str_replace( '_', '-', strtolower( $class ) ), 'class-', strpos( $class, '\\', 0 ) + 1, 0 ) ) . '.php';
-
-			if( file_exists( $file_name ) ) {
-				require $file_name;
-			}
-		} );
-
-		spl_autoload_register( function( $trait ) {
-			$file_name = plugin_dir_path( __FILE__ ) . str_replace( '\\', DIRECTORY_SEPARATOR, substr_replace( str_replace( '_', '-', strtolower( $trait ) ), 'trait-', strpos( $trait, '\\', 0 ) + 1, 0 ) ) . '.php';
-
-			if( file_exists( $file_name ) ) {
-				require $file_name;
-			}
-		} );
-	}
-
-	/**
-	 * The method run during plugin activation.
-	 * This action is documented in includes/class-wp-admin-vue-activator.php
-	 * 
-	 * @since 1.0.0
-	 */
-	function activate_wp_admin_vue() {
-		Wp_Admin_Vue_Activator::activate();
-	}
-
-	/**
-	 * The method run during plugin deactivation.
-	 * This action is documented in includes/class-wp-admin-vue-deactivator.php
-	 * 
-	 * @since 1.0.0
-	 */
-	function deactivate_wp_admin_vue() {
-		Wp_Admin_Vue_Deactivator::deactivate();
-	}
-	/**
-	 * This method do the checking task at the time of plugin initialization.
-	 * 
-	 * @since 1.0.0
-	 */
-	public function wp_admin_vue_check() {
-		if ( ! function_exists( 'get_plugins' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/plugin.php';
-		}
-		$installed_plugins = get_plugins();
-		$active_plugins = get_option( 'active_plugins' );
-
-		$dependency_plugins = [ 
-			'woocommerce/woocommerce.php' => '3.0',
-		];
-
-		$dependency_plugin_not_installed_error = [];
-		$dependency_plugin_inactive_error = [];
-		$dependency_plugin_version_error = [];
-
-		if( ! empty( $dependency_plugins ) && ! empty( $active_plugins ) && ! empty( $installed_plugins) ) {
-			foreach( $dependency_plugins as $dependency_plugin_main_file => $dependency_plugin_version ) {
-				if( array_key_exists( $dependency_plugin_main_file, $installed_plugins ) ) {
-					if( array_key_exists( $dependency_plugin_main_file, array_flip( $active_plugins ) ) ) {
-						if( $installed_plugins[$dependency_plugin_main_file]['Version'] < $dependency_plugin_version ) {
-							$dependency_plugin_version_error[ $installed_plugins[ $dependency_plugin_main_file ][ 'Name' ] ] = $dependency_plugin_version;
-						}
-					} else {
-						$dependency_plugin_inactive_error[ $installed_plugins[ $dependency_plugin_main_file ][ 'Name' ] ] = $dependency_plugins[ $dependency_plugin_main_file ];
-					}
-				} else {						
-					$dependency_plugin_not_installed_error[ $dependency_plugin_main_file ] = $dependency_plugin_version;
-				}
-			}
-		}
-
-		$dependency_error = 
-			! empty( $dependency_plugin_not_installed_error ) || 
-			! empty( $dependency_plugin_inactive_error ) || 
-			! empty( $dependency_plugin_version_error ) 
-		? true : false;
-
-		if( $dependency_error ) {
-			deactivate_plugins( plugin_basename( __FILE__ ) );
-			add_action( 'admin_head', [ $this, 'hide_plugin_activation_notice' ] );
-			add_action( 'admin_notices', [ $this, 'dependency_error_notice' ] );
-			return false;
-		} else {
-			return true;
-		}
-	}
-
-	/**
-	 * Hide auto deactivation notice.
-	 * When dependent plugin is not active, this plugin automatically deactivated.
-	 * This method hide this notification.
-	 * 
-	 * @since 1.0.0
-	 */
-	public function hide_plugin_activation_notice() {
-		?>
-		<style>
-		#message.updated {
-			display: none;
-		}
-		</style>
-		<?php
-	}
-
-	public function dependency_error_notice() {
-		?>
-		<div class="notice notice-error">
-			<p><?php _e( 'Done!', TEXTDOMAIN ); ?></p>
-		</div>
-		<?php
-	}
-
+function activation() {
+	require plugin_dir_path( __FILE__ ) . 'includes/Activator.php';
+	wpAdminVue\Includes\Activator::activate();
 }
+function deactivation() {
+	require plugin_dir_path( __FILE__ ) . 'includes/Deactivator.php';
+	wpAdminVue\Includes\Deactivator::deactivate();
+}
+register_activation_hook( __FILE__, 'activation' );
+register_deactivation_hook( __FILE__, 'deactivation' );
 
 add_action( 'init', function(){
-    if ( ! defined( 'WP_Admin_Vue_Plugin_Loaded' ) ) {
-		new WP_Admin_Vue_Plugin_Boilerplate();
+	if ( ! defined( 'WP_Admin_Vue_Plugin_Loaded' ) ) {
+		require plugin_dir_path( __FILE__ ) . 'includes/Controller.php';
+		new wpAdminVue\Includes\Controller();
     }
 });

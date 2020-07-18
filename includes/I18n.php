@@ -1,6 +1,6 @@
 <?php
 
-namespace includes;
+namespace wpAdminVue\Includes;
 
 /**
  * Define the internationalization functionality
@@ -26,7 +26,7 @@ namespace includes;
  * @subpackage Wp_Admin_Vue/includes
  * @author     Mrinal Haque <mrinalhaque99@gmail.com>
  */
-class Wp_Admin_Vue_i18n {
+class I18n {
 
 
 	/**

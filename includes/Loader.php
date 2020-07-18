@@ -1,6 +1,6 @@
 <?php
 
-namespace includes;
+namespace wpAdminVue\Includes;
 
 /**
  * Register all actions and filters for the plugin
@@ -23,7 +23,7 @@ namespace includes;
  * @subpackage Wp_Admin_Vue/includes
  * @author     Mrinal Haque <mrinalhaque99@gmail.com>
  */
-class Wp_Admin_Vue_Loader {
+class Loader {
 
 	/**
 	 * The array of actions registered with WordPress.

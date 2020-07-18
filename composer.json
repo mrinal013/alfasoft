@@ -1,0 +1,15 @@
+{
+    "name": "itbz/wp-admin-vue",
+    "description": "Plugin Boilerplate",
+    "type": "wordpress-plugin",
+    "license": "GPLv2",
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "wpAdminVue\\Includes\\": "includes/",
+            "wpAdminVue\\Admin\\": "admin/",
+            "wpAdminVue\\Frontend\\": "public/"
+        }
+    }
+}

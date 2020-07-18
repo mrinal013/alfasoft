@@ -1,6 +1,6 @@
 <?php
 
-namespace includes;
+namespace wpAdminVue\Includes;
 
 /**
  * Fired during plugin deactivation
@@ -22,7 +22,7 @@ namespace includes;
  * @subpackage Wp_Admin_Vue/includes
  * @author     Mrinal Haque <mrinalhaque99@gmail.com>
  */
-class Wp_Admin_Vue_Deactivator {
+class Deactivator {
 
 	/**
 	 * Short Description. (use period)
@@ -32,7 +32,24 @@ class Wp_Admin_Vue_Deactivator {
 	 * @since    1.0.0
 	 */
 	public static function deactivate() {
+		$object = new self();
+		$object->take_off_notice();
+	}
 
+	public function take_off_notice() {
+		set_transient('my_deactivation_transient', 'My plugin is being deactivated', 100);
+		$this->sample_admin_notice__success();
+	}
+
+	/**
+	 * Admin notice on deactivation
+	 */
+	function sample_admin_notice__success() {
+		$message = get_transient('my_deactivation_transient');
+
+    	if (empty($message)) return;
+
+    	echo "<div class='error'><p>$message</p></div>";
 	}
 
 }

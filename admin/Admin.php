@@ -1,28 +1,33 @@
 <?php
+namespace wpAdminVue\Admin;
 
-namespace wp_public;
+use wpAdminVue\Admin\Menu as Menu;
+use wpAdminVue\Admin\Submenu as Submenu;
 
 /**
- * The public-facing functionality of the plugin.
+ * The admin-specific functionality of the plugin.
  *
  * @link       mrinalbd.com
  * @since      1.0.0
  *
  * @package    Wp_Admin_Vue
- * @subpackage Wp_Admin_Vue/public
+ * @subpackage Wp_Admin_Vue/admin
  */
 
 /**
- * The public-facing functionality of the plugin.
+ * The admin-specific functionality of the plugin.
  *
  * Defines the plugin name, version, and two examples hooks for how to
- * enqueue the public-facing stylesheet and JavaScript.
+ * enqueue the admin-specific stylesheet and JavaScript.
  *
  * @package    Wp_Admin_Vue
- * @subpackage Wp_Admin_Vue/public
+ * @subpackage Wp_Admin_Vue/admin
  * @author     Mrinal Haque <mrinalhaque99@gmail.com>
  */
-class Wp_Admin_Vue_Public {
+
+class Admin {
+
+	use Menu, Submenu;
 
 	/**
 	 * The ID of this plugin.
@@ -46,18 +51,19 @@ class Wp_Admin_Vue_Public {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of the plugin.
+	 * @param      string    $plugin_name       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
-
+		$this->version = $version;	
 	}
 
+	
+
 	/**
-	 * Register the stylesheets for the public-facing side of the site.
+	 * Register the stylesheets for the admin area.
 	 *
 	 * @since    1.0.0
 	 */
@@ -80,7 +86,7 @@ class Wp_Admin_Vue_Public {
 	}
 
 	/**
-	 * Register the JavaScript for the public-facing side of the site.
+	 * Register the JavaScript for the admin area.
 	 *
 	 * @since    1.0.0
 	 */
@@ -97,8 +103,8 @@ class Wp_Admin_Vue_Public {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'assets/js/wp-admin-vue.build.js', array( 'jquery' ), $this->version, false );
+		
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'assets/js/wp-admin-vue.build.js', array(  ), $this->version, false );
 
 	}
 

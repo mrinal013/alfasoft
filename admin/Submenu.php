@@ -1,7 +1,7 @@
 <?php
-namespace admin;
+namespace wpAdminVue\Admin;
 
-trait WP_Admin_Vue_Submenu {
+trait Submenu {
 
     public function wp_admin_submenu() {
         global $submenu;

@@ -1,6 +1,6 @@
 <?php
 
-namespace includes;
+namespace wpAdminVue\Includes;
 
 /**
  * Fired during plugin activation
@@ -22,7 +22,7 @@ namespace includes;
  * @subpackage Wp_Admin_Vue/includes
  * @author     Mrinal Haque <mrinalhaque99@gmail.com>
  */
-class Wp_Admin_Vue_Activator {
+class Activator {
 
 	/**
 	 * Short Description. (use period)
@@ -32,7 +32,5 @@ class Wp_Admin_Vue_Activator {
 	 * @since    1.0.0
 	 */
 	public static function activate() {
-
 	}
-
 }

@@ -1,7 +1,7 @@
 <?php
-namespace admin;
+namespace wpAdminVue\Admin;
 
-trait WP_Admin_Vue_Menu {
+trait Menu {
 
     public function wp_admin_menu() {
 		$menu = add_menu_page(
