@@ -3,44 +3,81 @@ namespace MCQ\Admin;
 
 trait Metabox {
 	public function mcq_metabox_init() {
-		add_action( 'add_meta_boxes', [ $this, 'add_meta_box' ] );
+		add_action( 'add_meta_boxes', [ $this, 'mcq_rapater_meta_boxes'] );
 		add_action( 'save_post', [ $this, 'save' ] );
 	}
 
-	public function add_meta_box( $post_type ) {
-		$post_types = array( 'mcq' );
-
-		if ( in_array( $post_type, $post_types ) ) {
-			add_meta_box(
-				'answers',
-				__( 'Answers', 'textdomain' ),
-				array( $this, 'render_meta_box_content' ),
-				$post_type,
-				'advanced',
-				'high'
-			);
-		}
+	public function mcq_rapater_meta_boxes() {
+		add_meta_box( 'single-repeter-data', 'Answers', [ $this, 'mcq_meta_box_callback'], 'mcq', 'normal', 'default' );
 	}
+	function mcq_meta_box_callback($post) {
 
-	/**
-	 * Render Meta Box content.
-	 *
-	 * @param WP_Post $post The post object.
-	 */
-	public function render_meta_box_content( $post ) {
-
-		// Add an nonce field so we can check for it later.
-		wp_nonce_field( 'mcq_meta_box', 'mcq_meta_box_nonce' );
-
-		// Use get_post_meta to retrieve an existing value from the database.
-		$value = get_post_meta( $post->ID, '_my_meta_value_key', true );
-
-		// Display the form, using the current value.
+		$mcq_answers = get_post_meta($post->ID, 'mcq_answers', true);
+		$banner_img = get_post_meta($post->ID,'post_banner_img',true);
+		wp_nonce_field( 'repeterBox', 'formType' );
 		?>
-		<label for="myplugin_new_field">
-			<?php _e( 'Description for this field', 'textdomain' ); ?>
-		</label>
-		<input type="text" id="myplugin_new_field" name="myplugin_new_field" value="<?php echo esc_attr( $value ); ?>" size="25" />
+		<script type="text/javascript">
+			jQuery(document).ready(function( $ ){
+				$( '#add-row' ).on('click', function() {
+					var row = $( '.empty-row.custom-repeter-text' ).clone(true);
+					row.removeClass( 'empty-row custom-repeter-text' ).css('display','table-row');
+					row.insertBefore( '#repeatable-fieldset-one tbody>tr:last' );
+					return false;
+				});
+
+				$( '.remove-row' ).on('click', function() {
+					$(this).parents('tr').remove();
+					return false;
+				});
+				$('.correct_answer').on('click', function (e) {
+					let prev= $(this).prev();
+					console.log( $( this ).val() )
+					$(this).val( $( prev ).val() )
+				})
+			});
+
+
+
+		</script>
+<table>
+	<tbody>
+	<tr>
+		<td>Correct? <input type="radio" name="correct" value="Y" /></td>
+		<td>Correct? <input type="radio" name="correct" value="N" /></td>
+
+	</tr>
+	</tbody>
+</table>
+		<table id="repeatable-fieldset-one" width="100%">
+			<tbody>
+			<?php
+			if ( $mcq_answers ) :
+				foreach ( $mcq_answers as $field ) {
+					?>
+					<tr>
+						<td><input type="text"  style="width:98%;" name="title[]" value="<?php if($field['title'] != '') echo esc_attr( $field['title'] ); ?>" placeholder="Answer" /></td>
+						<td>Correct? <input type="radio" name="correct" value="<?php echo 'Y'; ?>" /></td>
+						<td><a class="button remove-row" href="#1">Remove</a></td>
+					</tr>
+					<?php
+				}
+			else :
+				?>
+				<tr>
+					<td><input type="text"   style="width:98%;" name="title[]" placeholder="Answer"/></td>
+					<td>Correct? <input type="radio" name="correct" value="N" /></td>
+					<td><a class="button  cmb-remove-row-button button-disabled" href="#">Remove</a></td>
+				</tr>
+			<?php endif; ?>
+			<tr class="empty-row custom-repeter-text" style="display: none">
+				<td><input type="text" style="width:98%;" name="title[]" placeholder="Answer"/></td>
+				<td>Correct? <input type="radio" class="correct_answer" name="correct" value=""/></td>
+				<td><a class="button remove-row" href="#">Remove</a></td>
+			</tr>
+
+			</tbody>
+		</table>
+		<p><a id="add-row" class="button" href="#">Add another</a></p>
 		<?php
 	}
 
@@ -56,28 +93,16 @@ trait Metabox {
 		 * because save_post can be triggered at other times.
 		 */
 
-		// Check if our nonce is set.
-		if ( ! isset( $_POST['myplugin_inner_custom_box_nonce'] ) ) {
-			return $post_id;
+		if ( ! isset( $_POST['formType'] ) && ! wp_verify_nonce( $_POST['formType'], 'repeterBox' ) ) {
+			return;
 		}
 
-		$nonce = $_POST['myplugin_inner_custom_box_nonce'];
-
-		// Verify that the nonce is valid.
-		if ( ! wp_verify_nonce( $nonce, 'myplugin_inner_custom_box' ) ) {
-			return $post_id;
-		}
-
-		/*
-		 * If this is an autosave, our form has not been submitted,
-		 * so we don't want to do anything.
-		 */
-		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-			return $post_id;
+		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
+			return;
 		}
 
 		// Check the user's permissions.
-		if ( 'page' == $_POST['post_type'] ) {
+		if ( 'mcq' == $_POST['post_type'] ) {
 			if ( ! current_user_can( 'edit_page', $post_id ) ) {
 				return $post_id;
 			}
@@ -88,11 +113,25 @@ trait Metabox {
 		}
 
 		/* OK, it's safe for us to save the data now. */
+		error_log( print_r($_POST, true));
 
-		// Sanitize the user input.
-		$mydata = sanitize_text_field( $_POST['myplugin_new_field'] );
+		$old = get_post_meta( $post_id, 'mcq_answers', true );
 
-		// Update the meta field.
-		update_post_meta( $post_id, '_my_meta_value_key', $mydata );
+		$new = array();
+		$titles = $_POST['title'];
+		$tdescs = $_POST['tdesc'];
+		$count = count( $titles );
+		for ( $i = 0; $i < $count; $i++ ) {
+			if ( $titles[$i] != '' ) {
+				$new[$i]['title'] = stripslashes( strip_tags( $titles[$i] ) );
+				$new[$i]['tdesc'] = $tdescs[$i];
+			}
+		}
+
+		if ( !empty( $new ) && $new != $old ){
+			update_post_meta( $post_id, 'mcq_answers', $new );
+		} elseif ( empty($new) && $old ) {
+			delete_post_meta( $post_id, 'mcq_answers', $old );
+		}
 	}
 }
