@@ -1,8 +1,8 @@
 <?php
-namespace wpAdminVue\Admin;
+namespace MCQ\Admin;
 
-use wpAdminVue\Admin\Menu as Menu;
-use wpAdminVue\Admin\Submenu as Submenu;
+use MCQ\Admin\CPT as CPT;
+use MCQ\Admin\Metabox as Metabox;
 
 /**
  * The admin-specific functionality of the plugin.
@@ -10,8 +10,8 @@ use wpAdminVue\Admin\Submenu as Submenu;
  * @link       mrinalbd.com
  * @since      1.0.0
  *
- * @package    Wp_Admin_Vue
- * @subpackage Wp_Admin_Vue/admin
+ * @package    MCQ
+ * @subpackage MCQ/admin
  */
 
 /**
@@ -20,14 +20,14 @@ use wpAdminVue\Admin\Submenu as Submenu;
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the admin-specific stylesheet and JavaScript.
  *
- * @package    Wp_Admin_Vue
- * @subpackage Wp_Admin_Vue/admin
+ * @package    MCQ
+ * @subpackage MCQ/admin
  * @author     Mrinal Haque <mrinalhaque99@gmail.com>
  */
 
 class Admin {
 
-	use Menu, Submenu;
+	use CPT, Metabox;
 
 	/**
 	 * The ID of this plugin.
@@ -36,7 +36,7 @@ class Admin {
 	 * @access   private
 	 * @var      string    $plugin_name    The ID of this plugin.
 	 */
-	private $plugin_name;
+	public $plugin_name;
 
 	/**
 	 * The version of this plugin.
@@ -45,7 +45,7 @@ class Admin {
 	 * @access   private
 	 * @var      string    $version    The current version of this plugin.
 	 */
-	private $version;
+	public $version;
 
 	/**
 	 * Initialize the class and set its properties.
@@ -57,10 +57,14 @@ class Admin {
 	public function __construct( $plugin_name, $version ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;	
+		$this->version = $version;
+
+		$this->mcq_post_type_init();
+
+		$this->mcq_metabox_init();
 	}
 
-	
+
 
 	/**
 	 * Register the stylesheets for the admin area.
@@ -70,18 +74,17 @@ class Admin {
 	public function enqueue_styles() {
 
 		/**
-		 * This function is provided for demonstration purposes only.
 		 *
 		 * An instance of this class should be passed to the run() function
-		 * defined in Wp_Admin_Vue_Loader as all of the hooks are defined
+		 * defined in MCQ_Loader as all of the hooks are defined
 		 * in that particular class.
 		 *
-		 * The Wp_Admin_Vue_Loader will then create the relationship
+		 * The MCQ_Loader will then create the relationship
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'assets/css/wp-admin-vue.build.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, PLUGIN_ROOT_URL . 'admin/assets/css/style.css', array(), $this->version, 'all' );
 
 	}
 
@@ -93,19 +96,19 @@ class Admin {
 	public function enqueue_scripts() {
 
 		/**
-		 * This function is provided for demonstration purposes only.
 		 *
 		 * An instance of this class should be passed to the run() function
-		 * defined in Wp_Admin_Vue_Loader as all of the hooks are defined
+		 * defined in MCQ_Loader as all of the hooks are defined
 		 * in that particular class.
 		 *
-		 * The Wp_Admin_Vue_Loader will then create the relationship
+		 * The MCQ_Loader will then create the relationship
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-		
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'assets/js/wp-admin-vue.build.js', array(  ), $this->version, false );
-
+		global $post_type;
+		if( 'mcq' == $post_type ) {
+			wp_enqueue_script($this->plugin_name, PLUGIN_ROOT_URL . 'admin/assets/js/script.js', array('jquery'), $this->version, true);
+		}
 	}
 
 }

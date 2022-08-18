@@ -1,5 +1,5 @@
 {
-    "name": "itbz/wp-admin-vue",
+    "name": "mrinal013/mcq",
     "description": "Plugin Boilerplate",
     "type": "wordpress-plugin",
     "license": "GPLv2",
@@ -7,9 +7,9 @@
     "require": {},
     "autoload": {
         "psr-4": {
-            "wpAdminVue\\Includes\\": "includes/",
-            "wpAdminVue\\Admin\\": "admin/",
-            "wpAdminVue\\Frontend\\": "public/"
+            "MCQ\\Includes\\": "includes/",
+            "MCQ\\Admin\\": "admin/",
+            "MCQ\\Frontend\\": "public/"
         }
     }
 }

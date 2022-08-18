@@ -1,6 +1,6 @@
 <?php
 
-namespace wpAdminVue\Includes;
+namespace MCQ\Includes;
 
 /**
  * Register all actions and filters for the plugin
@@ -8,8 +8,8 @@ namespace wpAdminVue\Includes;
  * @link       mrinalbd.com
  * @since      1.0.0
  *
- * @package    Wp_Admin_Vue
- * @subpackage Wp_Admin_Vue/includes
+ * @package    MCQ
+ * @subpackage MCQ/includes
  */
 
 /**
@@ -19,8 +19,8 @@ namespace wpAdminVue\Includes;
  * the plugin, and register them with the WordPress API. Call the
  * run function to execute the list of actions and filters.
  *
- * @package    Wp_Admin_Vue
- * @subpackage Wp_Admin_Vue/includes
+ * @package    MCQ
+ * @subpackage MCQ/includes
  * @author     Mrinal Haque <mrinalhaque99@gmail.com>
  */
 class Loader {

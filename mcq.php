@@ -13,7 +13,7 @@
  * @package           Wp_Admin_Vue
  *
  * @wordpress-plugin
- * Plugin Name:       WordPress Dashboard with Vue
+ * Plugin Name:       MCQ System
  * Plugin URI:        mrinalbd.com
  * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
  * Version:           1.0.0
@@ -21,7 +21,7 @@
  * Author URI:        mrinalbd.com
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       wp-admin-vue
+ * Text Domain:       mcq
  * Domain Path:       /languages
  */
 
@@ -33,25 +33,24 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Define plugin constants
  */
-define( 'PLUGIN_MAIN_FILE', __FILE__ );
-define( 'WP_ADMIN_VUE_VERSION', '1.0.0' );
-define( 'TEXTDOMAIN', 'wp-admin-vue');
-define( 'PAGE_SLUG', 'wp-admin-vue');
+define( 'PLUGIN_ROOT_FILE', __FILE__  );
+define( 'PLUGIN_ROOT_URL', plugin_dir_url(PLUGIN_ROOT_FILE ) );
+define( 'MCQ_VERSION', '1.0.0' );
 
 function activation() {
 	require plugin_dir_path( __FILE__ ) . 'includes/Activator.php';
-	wpAdminVue\Includes\Activator::activate();
+	MCQ\Includes\Activator::activate();
 }
 function deactivation() {
 	require plugin_dir_path( __FILE__ ) . 'includes/Deactivator.php';
-	wpAdminVue\Includes\Deactivator::deactivate();
+	MCQ\Includes\Deactivator::deactivate();
 }
 register_activation_hook( __FILE__, 'activation' );
 register_deactivation_hook( __FILE__, 'deactivation' );
 
 add_action( 'init', function(){
-	if ( ! defined( 'WP_Admin_Vue_Plugin_Loaded' ) ) {
+	if ( ! defined( 'MCQ_System_Loaded' ) ) {
 		require plugin_dir_path( __FILE__ ) . 'includes/Controller.php';
-		new wpAdminVue\Includes\Controller();
+		new MCQ\Includes\Controller();
     }
 });

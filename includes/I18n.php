@@ -1,6 +1,6 @@
 <?php
 
-namespace wpAdminVue\Includes;
+namespace MCQ\Includes;
 
 /**
  * Define the internationalization functionality

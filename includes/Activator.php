@@ -1,6 +1,6 @@
 <?php
 
-namespace wpAdminVue\Includes;
+namespace MCQ\Includes;
 
 /**
  * Fired during plugin activation

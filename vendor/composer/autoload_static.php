@@ -7,27 +7,39 @@ namespace Composer\Autoload;
 class ComposerStaticInit3198171f78454e704f92f00cbac3e72f
 {
     public static $prefixLengthsPsr4 = array (
-        'w' => 
+        'M' => 
         array (
-            'wpAdminVue\\Includes\\' => 20,
-            'wpAdminVue\\Frontend\\' => 20,
-            'wpAdminVue\\Admin\\' => 17,
+            'MCQ\\Includes\\' => 13,
+            'MCQ\\Frontend\\' => 13,
+            'MCQ\\Admin\\' => 10,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'wpAdminVue\\Includes\\' => 
+        'MCQ\\Includes\\' => 
         array (
             0 => __DIR__ . '/../..' . '/includes',
         ),
-        'wpAdminVue\\Frontend\\' => 
+        'MCQ\\Frontend\\' => 
         array (
             0 => __DIR__ . '/../..' . '/public',
         ),
-        'wpAdminVue\\Admin\\' => 
+        'MCQ\\Admin\\' => 
         array (
             0 => __DIR__ . '/../..' . '/admin',
         ),
+    );
+
+    public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'MCQ\\Admin\\Admin' => __DIR__ . '/../..' . '/admin/Admin.php',
+        'MCQ\\Admin\\CPT' => __DIR__ . '/../..' . '/admin/CPT.php',
+        'MCQ\\Frontend\\Frontend' => __DIR__ . '/../..' . '/public/Frontend.php',
+        'MCQ\\Includes\\Activator' => __DIR__ . '/../..' . '/includes/Activator.php',
+        'MCQ\\Includes\\Controller' => __DIR__ . '/../..' . '/includes/Controller.php',
+        'MCQ\\Includes\\Deactivator' => __DIR__ . '/../..' . '/includes/Deactivator.php',
+        'MCQ\\Includes\\I18n' => __DIR__ . '/../..' . '/includes/I18n.php',
+        'MCQ\\Includes\\Loader' => __DIR__ . '/../..' . '/includes/Loader.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
@@ -35,6 +47,7 @@ class ComposerStaticInit3198171f78454e704f92f00cbac3e72f
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit3198171f78454e704f92f00cbac3e72f::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit3198171f78454e704f92f00cbac3e72f::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit3198171f78454e704f92f00cbac3e72f::$classMap;
 
         }, null, ClassLoader::class);
     }

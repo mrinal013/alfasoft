@@ -1,6 +1,6 @@
 <?php
 
-namespace wpAdminVue\Frontend;
+namespace MCQ\Frontend;
 
 /**
  * The public-facing functionality of the plugin.
@@ -8,8 +8,8 @@ namespace wpAdminVue\Frontend;
  * @link       mrinalbd.com
  * @since      1.0.0
  *
- * @package    Wp_Admin_Vue
- * @subpackage Wp_Admin_Vue/public
+ * @package    MCQ
+ * @subpackage MCQ/public
  */
 
 /**
@@ -18,8 +18,8 @@ namespace wpAdminVue\Frontend;
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the public-facing stylesheet and JavaScript.
  *
- * @package    Wp_Admin_Vue
- * @subpackage Wp_Admin_Vue/public
+ * @package    MCQ
+ * @subpackage MCQ/public
  * @author     Mrinal Haque <mrinalhaque99@gmail.com>
  */
 class Frontend {
@@ -75,7 +75,7 @@ class Frontend {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'assets/css/wp-admin-vue.build.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'assets/css/style.css', array(), $this->version, 'all' );
 
 	}
 
@@ -98,7 +98,7 @@ class Frontend {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'assets/js/wp-admin-vue.build.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'assets/js/script.js', array( 'jquery' ), $this->version, false );
 
 	}
 
