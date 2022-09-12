@@ -30,11 +30,11 @@ class Admin {
 	use CPT, Metabox;
 
 	/**
-	 * The ID of this plugin.
+	 * The name of this plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   private
-	 * @var      string    $plugin_name    The ID of this plugin.
+	 * @access   public
+	 * @var      string    $plugin_name    The name of this plugin.
 	 */
 	public $plugin_name;
 
@@ -42,13 +42,16 @@ class Admin {
 	 * The version of this plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   private
+	 * @access   public
 	 * @var      string    $version    The current version of this plugin.
 	 */
 	public $version;
 
 	/**
-	 * Initialize the class and set its properties.
+	 * 1. Initialize the class
+	 * 2. Set its properties.
+	 * 3. Register mcq post type from CPT trait
+	 * 4. Init metabox for mcq posts from Metabox trait
 	 *
 	 * @since    1.0.0
 	 * @param      string    $plugin_name       The name of this plugin.
@@ -89,7 +92,7 @@ class Admin {
 	}
 
 	/**
-	 * Register the JavaScript for the admin area.
+	 * Register the JavaScript file for the admin area.
 	 *
 	 * @since    1.0.0
 	 */

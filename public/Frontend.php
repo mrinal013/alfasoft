@@ -2,27 +2,23 @@
 
 namespace MCQ\Frontend;
 
-/**
- * The public-facing functionality of the plugin.
- *
- * @link       mrinalbd.com
- * @since      1.0.0
- *
- * @package    MCQ
- * @subpackage MCQ/public
- */
+use MCQ\Frontend\Shortcode as Shortcode;
+use MCQ\Frontend\Block as Block;
 
 /**
  * The public-facing functionality of the plugin.
  *
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the public-facing stylesheet and JavaScript.
- *
+ * @link       mrinalbd.com
+ * @since      1.0.0
  * @package    MCQ
  * @subpackage MCQ/public
  * @author     Mrinal Haque <mrinalhaque99@gmail.com>
  */
 class Frontend {
+
+	use Shortcode, Block;
 
 	/**
 	 * The ID of this plugin.
@@ -53,6 +49,9 @@ class Frontend {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
+
+		$this->shortcode_init();
+		$this->block_init();
 
 	}
 

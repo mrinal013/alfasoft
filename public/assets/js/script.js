@@ -4,29 +4,22 @@
 	/**
 	 * All of the code for your public-facing JavaScript source
 	 * should reside in this file.
-	 *
-	 * Note: It has been assumed you will write jQuery code here, so the
-	 * $ function reference has been prepared for usage within the scope
-	 * of this function.
-	 *
-	 * This enables you to define handlers, for when the DOM is ready:
-	 *
-	 * $(function() {
-	 *
-	 * });
-	 *
-	 * When the window is loaded:
-	 *
-	 * $( window ).load(function() {
-	 *
-	 * });
-	 *
-	 * ...and/or other possibilities.
-	 *
-	 * Ideally, it is not considered best practise to attach more than a
-	 * single DOM-ready or window-load handler for a particular page.
-	 * Although scripts in the WordPress core, Plugins and Themes may be
-	 * practising this, we should strive to set a better example in our own work.
 	 */
+	$(document).on( 'click', 'button[id^="mcq-submit"]', function() {
+		var score = 0;
+		var totalQuestions = 0;
+		$(this).parent('div').find('div[id^="single-mcq-"]').each(function(i, k) {
+			totalQuestions++;
+			var correct = $(k).data('correct');
+			var selectedVal = $(k).find('input:checked').val();
+			
+			if ( correct == selectedVal ) {
+				score++;
+			}
+		})
+		$(this).parent('div').hide()
+		$(this).parent('div').after('<p>Total: ' + totalQuestions + '</p>');
+		$(this).parent('div').after('<p>Correct: ' + score + '</p>');
+	})
 
 })( jQuery );

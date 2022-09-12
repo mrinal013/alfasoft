@@ -7,12 +7,4 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
-    'MCQ\\Admin\\Admin' => $baseDir . '/admin/Admin.php',
-    'MCQ\\Admin\\CPT' => $baseDir . '/admin/CPT.php',
-    'MCQ\\Frontend\\Frontend' => $baseDir . '/public/Frontend.php',
-    'MCQ\\Includes\\Activator' => $baseDir . '/includes/Activator.php',
-    'MCQ\\Includes\\Controller' => $baseDir . '/includes/Controller.php',
-    'MCQ\\Includes\\Deactivator' => $baseDir . '/includes/Deactivator.php',
-    'MCQ\\Includes\\I18n' => $baseDir . '/includes/I18n.php',
-    'MCQ\\Includes\\Loader' => $baseDir . '/includes/Loader.php',
 );

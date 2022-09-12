@@ -32,14 +32,6 @@ class ComposerStaticInit3198171f78454e704f92f00cbac3e72f
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'MCQ\\Admin\\Admin' => __DIR__ . '/../..' . '/admin/Admin.php',
-        'MCQ\\Admin\\CPT' => __DIR__ . '/../..' . '/admin/CPT.php',
-        'MCQ\\Frontend\\Frontend' => __DIR__ . '/../..' . '/public/Frontend.php',
-        'MCQ\\Includes\\Activator' => __DIR__ . '/../..' . '/includes/Activator.php',
-        'MCQ\\Includes\\Controller' => __DIR__ . '/../..' . '/includes/Controller.php',
-        'MCQ\\Includes\\Deactivator' => __DIR__ . '/../..' . '/includes/Deactivator.php',
-        'MCQ\\Includes\\I18n' => __DIR__ . '/../..' . '/includes/I18n.php',
-        'MCQ\\Includes\\Loader' => __DIR__ . '/../..' . '/includes/Loader.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
