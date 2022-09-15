@@ -50,4 +50,53 @@ trait CPT {
 
 		register_post_type( 'person', $args );
 	}
+
+	public function modify_list_row_actions( $actions, $post ) {
+		add_thickbox();
+
+		$response = file_get_contents('https://restcountries.com/v2/all');
+		$response = json_decode($response);
+		// echo '<pre>';
+		// print_r($response);
+		// echo '</pre>';
+		$country_codes = [];
+		if ( ! empty( $response ) ) {
+			foreach ( $response as $key => $value ) {
+				$name = $value->name;
+				$calling_code = $value->callingCodes[0];
+				$country_codes[] = $name . '(' . $calling_code . ')';
+			}
+		}
+		?>
+		<div id="my-content-id" style="display:none;">
+		<select class="js-example-basic-single">
+			<?php
+			if ( ! empty( $country_codes ) ) {
+				foreach ( $country_codes as $key => $country_code ) {
+					?>
+					<option value="AL"><?php echo $country_code; ?></option>
+					<?php
+				}
+			}
+			?>
+		</select>
+			
+		</div>
+		<?php
+		// Check for your post type.
+		if ( $post->post_type == "person" ) {
+			$copy_link = '#TB_inline?&width=600&height=550&inlineId=my-content-id';
+			// Add the new contact quick link.
+			$actions = array_merge( $actions, array(
+				'add-contact' => sprintf( '<a href="%1$s" class="thickbox">%2$s</a>',
+				esc_url( $copy_link ), 
+				'Add Contact'
+			)
+		   ) );
+		   unset( $actions['inline hide-if-no-js'] );
+		   unset( $actions[ 'view' ] );
+		}
+
+		return $actions;
+	}
 }

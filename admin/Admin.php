@@ -65,9 +65,19 @@ class Admin {
 		$this->person_post_type_init();
 
 		$this->person_metabox_init();
+
+		add_filter( 'post_row_actions', [ $this, 'modify_list_row_actions' ], 10, 2 );
+
+		add_action( 'wp_ajax_contact_management_action', [ $this, 'contact_management_action_cb' ] );
 	}
 
+public function contact_management_action_cb() {
+	
+	$post_id = preg_replace("/[^0-9]/","",$_POST['postId']);
+	update_post_meta( $post_id, 'contact-' . $_POST['contactNumber'], json_encode($_POST) );
 
+	wp_die();
+}
 
 	/**
 	 * Register the stylesheets for the admin area.
@@ -86,8 +96,12 @@ class Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
+		global $post_type;
+		if( 'person' == $post_type ) {
+			wp_enqueue_style( $this->plugin_name . '-select2', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css', array(), $this->version, 'all' );
 
-		wp_enqueue_style( $this->plugin_name, PLUGIN_ROOT_URL . 'admin/assets/css/style.css', array(), $this->version, 'all' );
+			wp_enqueue_style( $this->plugin_name, PLUGIN_ROOT_URL . 'admin/assets/css/style.css', array(), $this->version, 'all' );
+		}
 
 	}
 
@@ -110,8 +124,11 @@ class Admin {
 		 */
 		global $post_type;
 		if( 'person' == $post_type ) {
+			wp_enqueue_script($this->plugin_name . '-select2', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js', array(), $this->version, true);
 			wp_enqueue_script($this->plugin_name, PLUGIN_ROOT_URL . 'admin/assets/js/script.js', array('jquery'), $this->version, true);
 		}
 	}
+
+	
 
 }

@@ -8,73 +8,82 @@ trait Metabox {
 	}
 
 	public function person_rapater_meta_boxes() {
-		add_meta_box( 'single-repeter-data', __( 'Contact', 'contact-management' ), [ $this, 'mcq_meta_box_callback'], 'person', 'normal', 'default' );
+		add_meta_box( 'single-person-data', __( 'Contact', 'contact-management' ), [ $this, 'contact_management_meta_box_callback'], 'person', 'normal', 'default' );
 	}
 
-	function mcq_meta_box_callback($post) {
+	function contact_management_meta_box_callback($post) {
 		add_thickbox();
 		wp_nonce_field( 'repeterBox', 'formType' );
 
-		$mcq_answers 	= get_post_meta( $post->ID, 'mcq_answers', true );
-		$correct_answer = get_post_meta( $post->ID, 'mcq_correct', true );
+		$response = file_get_contents('https://restcountries.com/v2/all');
+		$response = json_decode($response);
+		$country_codes = [];
+		if ( ! empty( $response ) ) {
+			foreach ( $response as $key => $value ) {
+				$name = $value->name;
+				$calling_code = $value->callingCodes[0];
+				$country_codes[] = $name . '(' . $calling_code . ')';
+			}
+		}
+
+		$contacts = get_post_custom( $post->ID );
+		$contacts = array_intersect_key($contacts, array_flip(preg_grep("/^contact-/", array_keys($contacts))));
+		// echo '<pre>';
+		// print_r( $contacts );
+		// echo '</pre>';
 		?>
-		<script type="text/javascript">
-			jQuery(document).ready(function( $ ){
-				$( '#add-row' ).on( 'click', function() {
-					var row = $( '.empty-row.custom-repeter-text' ).clone(true);
-					row.removeClass( 'empty-row custom-repeter-text' ).css('display','table-row');
-					row.insertBefore( '#repeatable-fieldset-one tbody>tr:last' );
-					return false;
-				});
-
-				$( '.remove-row' ).on( 'click', function() {
-					$(this).parents( 'tr' ).remove();
-					return false;
-				});
-				$( '.correct_answer' ).on( 'click', function (e) {
-					let prev= $(this).prev();
-					console.log( $( this ).val() )
-					$(this).val( $( prev ).val() )
-				})
-			});
-		</script>
-
+		
+		
 		<div id="my-content-id" style="display:none;">
-			<p>
-				This is my hidden content! It will appear in ThickBox when the link is clicked.
-			</p>
+			<div id="wrapper-<?php echo $post->ID; ?>">
+				<label for="">Country code</label>
+				<select class="js-example-basic-single"  width="75%">
+					<?php
+					if ( ! empty( $country_codes ) ) {
+						foreach ( $country_codes as $key => $country_code ) {
+							?>
+							<option value="<?php echo $key; ?>"><?php echo $country_code; ?></option>
+							<?php
+						}
+					}
+					?>
+				</select>
+				<p>
+				<label>Number</label>	
+				<input type="tel" class="number" >
+				</p>
+				<a class="button add-button" data-id=<?php echo $post->ID; ?>>Add/Edit</a>
+			</div>
 		</div>
 
-		<table id="repeatable-fieldset-one" width="100%">
+		<table class="contact-management-table">
 			<tbody>
 			<?php
-			if ( ! empty( $mcq_answers ) ) :
-				foreach ( $mcq_answers as $key => $field ) {
+			if ( ! empty( $contacts ) ) :
+				foreach ( $contacts as $key => $contact ) {
+					// print_r($contact);
 					?>
 					<tr>
-						<td>Contry Name + Code</td>
+						<td>
+							<?php
+							// $array = $contact[0];
+							// echo '<pre>';
+							// print_r( $contact );
+							// echo '</pre>';
+							?>
+						</td>
+						<td>Number</td>
 						<td><a href="#TB_inline?&width=600&height=550&inlineId=my-content-id" class="thickbox"><?php echo __( 'Edit', 'contact-managment' ); ?></a></td>
 						<td><a class="button remove-row" href="#1"><?php echo __( 'Remove', 'mcq' ); ?></a></td>
 					</tr>
 					<?php
 				}
-			else :
+			endif;
 				?>
-				<tr>
-					<td>Contry Name + Code</td>
-					<td><a href="#TB_inline?&width=600&height=550&inlineId=my-content-id" class="thickbox"><?php echo __( 'Edit', 'contact-managment' ); ?></a></td>
-					<td><a class="button remove-row" href="#1"><?php echo __( 'Remove', 'mcq' ); ?></a></td>
-				</tr>
-			<?php endif; ?>
-			<tr class="empty-row custom-repeter-text" style="display: none">
-					<td>Contry Name + Code</td>
-					<td><a href="#TB_inline?&width=600&height=550&inlineId=my-content-id" class="thickbox"><?php echo __( 'Edit', 'contact-managment' ); ?></a></td>
-					<td><a class="button remove-row" href="#"><?php echo __( 'Remove', 'mcq' ); ?></a></td>
-			</tr>
-
 			</tbody>
 		</table>
 		<p><a href="#TB_inline?&width=600&height=550&inlineId=my-content-id" class="thickbox button"><?php echo __( 'Add another', 'contact-managment' ); ?></a></p>
+		
 		<?php
 	}
 
@@ -99,7 +108,7 @@ trait Metabox {
 			}
 
 			// Check the user's permissions.
-			if ( 'mcq' == $_POST['post_type'] ) {
+			if ( 'person' == $_POST['post_type'] ) {
 				if ( ! current_user_can( 'edit_page', $post_id ) ) {
 					return $post_id;
 				}
@@ -115,12 +124,6 @@ trait Metabox {
 				update_post_meta( $post_id, 'mcq_answers', array_filter( $_POST['answer'] ) );
 			} else {
 				delete_post_meta( $post_id, 'mcq_answers' );
-			}
-
-			if ( isset( $_POST['correct'] ) ) {
-				update_post_meta( $post_id, 'mcq_correct', $_POST['correct'] );
-			} else {
-				delete_post_meta( $post_id, 'mcq_correct' );
 			}
 		}
 	}
