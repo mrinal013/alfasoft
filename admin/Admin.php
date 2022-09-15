@@ -1,8 +1,8 @@
 <?php
-namespace MCQ\Admin;
+namespace Contact_Management\Admin;
 
-use MCQ\Admin\CPT as CPT;
-use MCQ\Admin\Metabox as Metabox;
+use Contact_Management\Admin\CPT as CPT;
+use Contact_Management\Admin\Metabox as Metabox;
 
 /**
  * The admin-specific functionality of the plugin.
@@ -10,8 +10,8 @@ use MCQ\Admin\Metabox as Metabox;
  * @link       mrinalbd.com
  * @since      1.0.0
  *
- * @package    MCQ
- * @subpackage MCQ/admin
+ * @package    Contact_Management
+ * @subpackage Contact_Management/admin
  */
 
 /**
@@ -20,8 +20,8 @@ use MCQ\Admin\Metabox as Metabox;
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the admin-specific stylesheet and JavaScript.
  *
- * @package    MCQ
- * @subpackage MCQ/admin
+ * @package    Contact_Management
+ * @subpackage Contact_Management/admin
  * @author     Mrinal Haque <mrinalhaque99@gmail.com>
  */
 
@@ -50,8 +50,8 @@ class Admin {
 	/**
 	 * 1. Initialize the class
 	 * 2. Set its properties.
-	 * 3. Register mcq post type from CPT trait
-	 * 4. Init metabox for mcq posts from Metabox trait
+	 * 3. Register person post type from CPT trait
+	 * 4. Init metabox for person posts from Metabox trait
 	 *
 	 * @since    1.0.0
 	 * @param      string    $plugin_name       The name of this plugin.
@@ -62,9 +62,9 @@ class Admin {
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
 
-		$this->mcq_post_type_init();
+		$this->person_post_type_init();
 
-		$this->mcq_metabox_init();
+		$this->person_metabox_init();
 	}
 
 
@@ -79,10 +79,10 @@ class Admin {
 		/**
 		 *
 		 * An instance of this class should be passed to the run() function
-		 * defined in MCQ_Loader as all of the hooks are defined
+		 * defined in Loader as all of the hooks are defined
 		 * in that particular class.
 		 *
-		 * The MCQ_Loader will then create the relationship
+		 * The Loader will then create the relationship
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
@@ -101,15 +101,15 @@ class Admin {
 		/**
 		 *
 		 * An instance of this class should be passed to the run() function
-		 * defined in MCQ_Loader as all of the hooks are defined
+		 * defined in Loader as all of the hooks are defined
 		 * in that particular class.
 		 *
-		 * The MCQ_Loader will then create the relationship
+		 * The Loader will then create the relationship
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
 		global $post_type;
-		if( 'mcq' == $post_type ) {
+		if( 'person' == $post_type ) {
 			wp_enqueue_script($this->plugin_name, PLUGIN_ROOT_URL . 'admin/assets/js/script.js', array('jquery'), $this->version, true);
 		}
 	}

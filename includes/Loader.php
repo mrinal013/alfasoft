@@ -1,6 +1,6 @@
 <?php
 
-namespace MCQ\Includes;
+namespace Contact_Management\Includes;
 
 /**
  * Register all actions and filters for the plugin
@@ -8,8 +8,8 @@ namespace MCQ\Includes;
  * @link       mrinalbd.com
  * @since      1.0.0
  *
- * @package    MCQ
- * @subpackage MCQ/includes
+ * @package    Contact_Management
+ * @subpackage Contact_Management/includes
  */
 
 /**
@@ -19,8 +19,8 @@ namespace MCQ\Includes;
  * the plugin, and register them with the WordPress API. Call the
  * run function to execute the list of actions and filters.
  *
- * @package    MCQ
- * @subpackage MCQ/includes
+ * @package    Contact_Management
+ * @subpackage MContact_ManagementCQ/includes
  * @author     Mrinal Haque <mrinalhaque99@gmail.com>
  */
 class Loader {

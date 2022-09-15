@@ -1,17 +1,18 @@
 <?php
-namespace MCQ\Admin;
+namespace Contact_Management\Admin;
 
 trait Metabox {
-	public function mcq_metabox_init() {
-		add_action( 'add_meta_boxes', [ $this, 'mcq_rapater_meta_boxes'] );
+	public function person_metabox_init() {
+		add_action( 'add_meta_boxes', [ $this, 'person_rapater_meta_boxes' ] );
 		add_action( 'save_post', [ $this, 'save' ] );
 	}
 
-	public function mcq_rapater_meta_boxes() {
-		add_meta_box( 'single-repeter-data', __( 'Answers', 'mcq' ), [ $this, 'mcq_meta_box_callback'], 'mcq', 'normal', 'default' );
+	public function person_rapater_meta_boxes() {
+		add_meta_box( 'single-repeter-data', __( 'Contact', 'contact-management' ), [ $this, 'mcq_meta_box_callback'], 'person', 'normal', 'default' );
 	}
 
 	function mcq_meta_box_callback($post) {
+		add_thickbox();
 		wp_nonce_field( 'repeterBox', 'formType' );
 
 		$mcq_answers 	= get_post_meta( $post->ID, 'mcq_answers', true );
@@ -38,6 +39,12 @@ trait Metabox {
 			});
 		</script>
 
+		<div id="my-content-id" style="display:none;">
+			<p>
+				This is my hidden content! It will appear in ThickBox when the link is clicked.
+			</p>
+		</div>
+
 		<table id="repeatable-fieldset-one" width="100%">
 			<tbody>
 			<?php
@@ -45,8 +52,8 @@ trait Metabox {
 				foreach ( $mcq_answers as $key => $field ) {
 					?>
 					<tr>
-						<td><input type="text"  style="width:98%;" name="answer[]" value="<?php if( isset( $field ) && ! empty( $field ) && ( '' !== $field ) ) echo esc_attr( $field ); ?>" placeholder="<?php echo __( 'Answer', 'mcq' ); ?>" /></td>
-						<td><?php echo __( 'Correct?', 'mcq' ); ?><input type="radio" name="correct" value="<?php echo $key; ?>" <?php echo ( $key == $correct_answer ) ? ' checked' : ''; ?> /></td>
+						<td>Contry Name + Code</td>
+						<td><a href="#TB_inline?&width=600&height=550&inlineId=my-content-id" class="thickbox"><?php echo __( 'Edit', 'contact-managment' ); ?></a></td>
 						<td><a class="button remove-row" href="#1"><?php echo __( 'Remove', 'mcq' ); ?></a></td>
 					</tr>
 					<?php
@@ -54,20 +61,20 @@ trait Metabox {
 			else :
 				?>
 				<tr>
-					<td><input type="text"   style="width:98%;" name="answer[]" placeholder="<?php echo __( 'Answer', 'mcq' ); ?>"/></td>
-					<td><?php echo __( 'Correct?', 'mcq' ); ?><input type="radio" name="correct" value="N" /></td>
-					<td><a class="button  cmb-remove-row-button button-disabled" href="#"><?php echo __( 'Remove', 'mcq' ); ?></a></td>
+					<td>Contry Name + Code</td>
+					<td><a href="#TB_inline?&width=600&height=550&inlineId=my-content-id" class="thickbox"><?php echo __( 'Edit', 'contact-managment' ); ?></a></td>
+					<td><a class="button remove-row" href="#1"><?php echo __( 'Remove', 'mcq' ); ?></a></td>
 				</tr>
 			<?php endif; ?>
 			<tr class="empty-row custom-repeter-text" style="display: none">
-				<td><input type="text" style="width:98%;" name="answer[]" placeholder="<?php echo __( 'Answer', 'mcq' ); ?>"/></td>
-				<td><?php echo __( 'Correct?', 'mcq' ); ?><input type="radio" class="correct_answer" name="correct" value=""/></td>
-				<td><a class="button remove-row" href="#"><?php echo __( 'Remove', 'mcq' ); ?></a></td>
+					<td>Contry Name + Code</td>
+					<td><a href="#TB_inline?&width=600&height=550&inlineId=my-content-id" class="thickbox"><?php echo __( 'Edit', 'contact-managment' ); ?></a></td>
+					<td><a class="button remove-row" href="#"><?php echo __( 'Remove', 'mcq' ); ?></a></td>
 			</tr>
 
 			</tbody>
 		</table>
-		<p><a id="add-row" class="button" href="#"><?php echo __( 'Add another', 'mcq' ); ?></a></p>
+		<p><a href="#TB_inline?&width=600&height=550&inlineId=my-content-id" class="thickbox button"><?php echo __( 'Add another', 'contact-managment' ); ?></a></p>
 		<?php
 	}
 

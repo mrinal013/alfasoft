@@ -1,6 +1,6 @@
 <?php
 
-namespace MCQ\Includes;
+namespace Contact_Management\Includes;
 
 /**
  * Fired during plugin deactivation
@@ -8,8 +8,8 @@ namespace MCQ\Includes;
  * @link       mrinalbd.com
  * @since      1.0.0
  *
- * @package    Wp_Admin_Vue
- * @subpackage Wp_Admin_Vue/includes
+ * @package    Contact_Management
+ * @subpackage Contact_Management/includes
  */
 
 /**
@@ -18,8 +18,8 @@ namespace MCQ\Includes;
  * This class defines all code necessary to run during the plugin's deactivation.
  *
  * @since      1.0.0
- * @package    Wp_Admin_Vue
- * @subpackage Wp_Admin_Vue/includes
+ * @package    Contact_Management
+ * @subpackage Contact_Management/includes
  * @author     Mrinal Haque <mrinalhaque99@gmail.com>
  */
 class Deactivator {

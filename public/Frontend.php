@@ -1,9 +1,9 @@
 <?php
 
-namespace MCQ\Frontend;
+namespace Contact_Management\Frontend;
 
-use MCQ\Frontend\Shortcode as Shortcode;
-use MCQ\Frontend\Block as Block;
+use Contact_Management\Frontend\Shortcode as Shortcode;
+use Contact_Management\Frontend\Block as Block;
 
 /**
  * The public-facing functionality of the plugin.
@@ -12,13 +12,13 @@ use MCQ\Frontend\Block as Block;
  * enqueue the public-facing stylesheet and JavaScript.
  * @link       mrinalbd.com
  * @since      1.0.0
- * @package    MCQ
- * @subpackage MCQ/public
+ * @package    Contact_Management
+ * @subpackage Contact_Management/public
  * @author     Mrinal Haque <mrinalhaque99@gmail.com>
  */
 class Frontend {
 
-	use Shortcode, Block;
+	use Shortcode;
 
 	/**
 	 * The ID of this plugin.
@@ -51,8 +51,6 @@ class Frontend {
 		$this->version = $version;
 
 		$this->shortcode_init();
-		$this->block_init();
-
 	}
 
 	/**

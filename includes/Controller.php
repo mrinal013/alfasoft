@@ -1,11 +1,11 @@
 <?php
 
-namespace MCQ\Includes;
+namespace Contact_Management\Includes;
 
-use MCQ\Includes\Loader as Loader;
-use MCQ\Includes\I18n as I18n;
-use MCQ\Admin\Admin as Admin;
-use MCQ\Frontend\Frontend as Frontend;
+use Contact_Management\Includes\Loader as Loader;
+use Contact_Management\Includes\I18n as I18n;
+use Contact_Management\Admin\Admin as Admin;
+use Contact_Management\Frontend\Frontend as Frontend;
 
 /**
  * The file that defines the core plugin class
@@ -16,8 +16,8 @@ use MCQ\Frontend\Frontend as Frontend;
  * @link       mrinalbd.com
  * @since      1.0.0
  *
- * @package    MCQ
- * @subpackage MCQ/includes
+ * @package    Contact_Management
+ * @subpackage Contact_Management/includes
  */
 
 /**
@@ -30,8 +30,8 @@ use MCQ\Frontend\Frontend as Frontend;
  * version of the plugin.
  *
  * @since      1.0.0
- * @package    MCQ
- * @subpackage MCQ/includes
+ * @package    Contact_Management
+ * @subpackage Contact_Management/includes
  * @author     Mrinal Haque <mrinalhaque99@gmail.com>
  */
 class Controller {
@@ -42,7 +42,7 @@ class Controller {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      MCQ_Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @var      Contact_Management_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
 
@@ -75,22 +75,22 @@ class Controller {
 	 */
 	public function __construct() {
 
-		if ( defined( 'MCQ_VERSION' ) ) {
-			$this->version = MCQ_VERSION;
+		if ( defined( 'Contact_Management_VERSION' ) ) {
+			$this->version = Contact_Management_VERSION;
 		} else {
 			$this->version = '1.0.0';
 		}
-		$this->plugin_name = 'mcq';
+		$this->plugin_name = 'contact_management';
 
-		$this->mcq_operation();
+		$this->contact_management_operation();
 
 	}
 
-	public function mcq_operation() {
-		if ( defined( 'MCQ_System_Loaded' ) ) {
+	public function contact_management_operation() {
+		if ( defined( 'Contact_Management_Loaded' ) ) {
 			return;
 		}
-		define( 'MCQ_System_Loaded', true );
+		define( 'Contact_Management_Loaded', true );
 		$this->autoload();
 		$this->load_dependencies();
 		$this->set_locale();
@@ -128,7 +128,7 @@ class Controller {
 	/**
 	 * Define the locale for this plugin for internationalization.
 	 *
-	 * Uses the MCQ_i18n class in order to set the domain and to register the hook
+	 * Uses the Contact_Management_i18n class in order to set the domain and to register the hook
 	 * with WordPress.
 	 *
 	 * @since    1.0.0
@@ -153,7 +153,7 @@ class Controller {
 
 		$plugin_admin = new Admin( $this->plugin_name, $this->version );
 
-		$this->loader->add_action( 'init', $plugin_admin, 'mcq_post_type_init' );
+		$this->loader->add_action( 'init', $plugin_admin, 'contact_management_post_type_init' );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
@@ -192,7 +192,7 @@ class Controller {
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
 	 * @since     1.0.0
-	 * @return    MCQ_Loader    Orchestrates the hooks of the plugin.
+	 * @return    Contact_Management_Loader    Orchestrates the hooks of the plugin.
 	 */
 	public function get_loader() {
 		return $this->loader;

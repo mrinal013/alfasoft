@@ -1,5 +1,5 @@
 <?php
-namespace MCQ\Frontend;
+namespace Contact_Management\Frontend;
 
 trait Shortcode {
     public function shortcode_init() {

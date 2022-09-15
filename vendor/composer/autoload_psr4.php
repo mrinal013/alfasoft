@@ -6,7 +6,7 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'MCQ\\Includes\\' => array($baseDir . '/includes'),
-    'MCQ\\Frontend\\' => array($baseDir . '/public'),
-    'MCQ\\Admin\\' => array($baseDir . '/admin'),
+    'Contact_Management\\Includes\\' => array($baseDir . '/includes'),
+    'Contact_Management\\Frontend\\' => array($baseDir . '/public'),
+    'Contact_Management\\Admin\\' => array($baseDir . '/admin'),
 );

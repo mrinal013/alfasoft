@@ -1,6 +1,6 @@
 <?php
 
-namespace MCQ\Includes;
+namespace Contact_Management\Includes;
 
 /**
  * Define the internationalization functionality
@@ -11,8 +11,8 @@ namespace MCQ\Includes;
  * @link       mrinalbd.com
  * @since      1.0.0
  *
- * @package    Wp_Admin_Vue
- * @subpackage Wp_Admin_Vue/includes
+ * @package    Contact_Management
+ * @subpackage Contact_Management/includes
  */
 
 /**
@@ -22,8 +22,8 @@ namespace MCQ\Includes;
  * so that it is ready for translation.
  *
  * @since      1.0.0
- * @package    Wp_Admin_Vue
- * @subpackage Wp_Admin_Vue/includes
+ * @package    Contact_Management
+ * @subpackage Contact_Management/includes
  * @author     Mrinal Haque <mrinalhaque99@gmail.com>
  */
 class I18n {
@@ -37,7 +37,7 @@ class I18n {
 	public function load_plugin_textdomain() {
 
 		load_plugin_textdomain(
-			'wp-admin-vue',
+			'contact-management',
 			false,
 			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
 		);

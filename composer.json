@@ -1,15 +1,15 @@
 {
-    "name": "mrinal013/mcq",
-    "description": "Plugin Boilerplate",
+    "name": "mrinal013/contact_management",
+    "description": "Contact Manager Plugin",
     "type": "wordpress-plugin",
     "license": "GPLv2",
     "minimum-stability": "dev",
     "require": {},
     "autoload": {
         "psr-4": {
-            "MCQ\\Includes\\": "includes/",
-            "MCQ\\Admin\\": "admin/",
-            "MCQ\\Frontend\\": "public/"
+            "Contact_Management\\Includes\\": "includes/",
+            "Contact_Management\\Admin\\": "admin/",
+            "Contact_Management\\Frontend\\": "public/"
         }
     }
 }
